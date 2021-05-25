@@ -14,6 +14,7 @@ class _checkLoginState extends State<checkLogin> {
   Future getData()async{
     SharedPreferences pref=await SharedPreferences.getInstance();
     country=pref.getString("country");
+    print(country);
     return country;
   }
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class _checkLoginState extends State<checkLogin> {
         if(snapshot.hasData && snapshot.connectionState==ConnectionState.done){
           return HomeScreen();
         }
-        else if(snapshot.data==null && snapshot.connectionState==ConnectionState.waiting){
+        else if(snapshot.data==null && snapshot.connectionState==ConnectionState.done){
           return SplashScreen();
         }
         else if(snapshot.connectionState==ConnectionState.waiting){

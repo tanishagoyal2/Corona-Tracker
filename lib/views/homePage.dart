@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
     var title = jsonDecode(response1.body)['data'];
-    int count=0;
+    int count = 0;
     title.forEach((k, v) {
       if (count < 5) {
         list.add(DateWiseData.fromJson(v));
@@ -116,10 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext c, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            var total_casesDiff=list[0].totalCases1-list[1].totalCases1;
-            var criticalDiff=list[0].critical1-list[1].critical1;
-            var recoveredDiff=list[0].recovered1-list[1].recovered1;
-            var deathsDiff=list[0].deaths1-list[1].deaths1;
+            var total_casesDiff = list[0].totalCases1 - list[1].totalCases1;
+            var criticalDiff = list[0].critical1 - list[1].critical1;
+            var recoveredDiff = list[0].recovered1 - list[1].recovered1;
+            var deathsDiff = list[0].deaths1 - list[1].deaths1;
             return Container(
               child: Stack(
                 children: [
@@ -170,216 +170,320 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 146,
-                                        width: 142,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Confirmed",
-                                              style:
-                                                  TextStyle(color: Colors.grey,fontSize: 16),
-                                            ),
-                                            Text(
+                          child: RefreshIndicator(
+                            onRefresh: () {
+                              setState(() {});
+                            },
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: 146,
+                                          width: 142,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Confirmed",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
                                                 list[0].totalCases1.toString(),
-                                              style:
-                                              TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                                            ),
-                                            Row(
-                                              children: [
-                                                total_casesDiff>0?Icon(Icons.arrow_upward,color: Colors.red,):Icon(Icons.arrow_downward,color: Colors.green,),
-                                                Text(
-                                                  total_casesDiff.abs().toString(),
-                                                  style:
-                                                  total_casesDiff>0?TextStyle(color:Colors.red,fontSize: 18,fontWeight: FontWeight.bold):TextStyle(color:Colors.green,fontSize: 18,fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  total_casesDiff > 0
+                                                      ? Icon(
+                                                          Icons.arrow_upward,
+                                                          color: Colors.red,
+                                                        )
+                                                      : Icon(
+                                                          Icons.arrow_downward,
+                                                          color: Colors.green,
+                                                        ),
+                                                  Text(
+                                                    total_casesDiff
+                                                        .abs()
+                                                        .toString(),
+                                                    style: total_casesDiff > 0
+                                                        ? TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold)
+                                                        : TextStyle(
+                                                            color: Colors.green,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 146,
-                                        width: 142,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Critical",
-                                              style:
-                                              TextStyle(color: Colors.grey,fontSize: 16),
-                                            ),
-                                            Text(
-                                              list[0].critical1.toString(),
-                                              style:
-                                              TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.blue),
-                                            ),
-                                            Row(
-                                              children: [
-                                                criticalDiff>0?Icon(Icons.arrow_upward,color: Colors.red,):Icon(Icons.arrow_downward,color: Colors.green,),
-                                                Text(
-                                                  criticalDiff.abs().toString(),
-                                                  style:
-                                                  criticalDiff>0?TextStyle(color:Colors.red,fontSize: 18,fontWeight: FontWeight.bold):TextStyle(color:Colors.green,fontSize: 18,fontWeight: FontWeight.bold),
+                                      Card(
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: 146,
+                                          width: 142,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Critical",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
+                                                list[0].critical1.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.blue),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  criticalDiff > 0
+                                                      ? Icon(
+                                                          Icons.arrow_upward,
+                                                          color: Colors.red,
+                                                        )
+                                                      : Icon(
+                                                          Icons.arrow_downward,
+                                                          color: Colors.green,
+                                                        ),
+                                                  Text(
+                                                    criticalDiff
+                                                        .abs()
+                                                        .toString(),
+                                                    style: criticalDiff > 0
+                                                        ? TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold)
+                                                        : TextStyle(
+                                                            color: Colors.green,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: 146,
+                                          width: 142,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Recovered",
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16,
                                                 ),
-                                              ],
-                                            ),
-                                          ],
+                                              ),
+                                              Text(
+                                                list[0].recovered1.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.green),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  recoveredDiff > 0
+                                                      ? Icon(
+                                                          Icons.arrow_upward,
+                                                          color: Colors.red,
+                                                        )
+                                                      : Icon(
+                                                          Icons.arrow_downward,
+                                                          color: Colors.green,
+                                                        ),
+                                                  Text(
+                                                    recoveredDiff
+                                                        .abs()
+                                                        .toString(),
+                                                    style: recoveredDiff > 0
+                                                        ? TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold)
+                                                        : TextStyle(
+                                                            color: Colors.green,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 146,
-                                        width: 142,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Recovered",
-                                              style:
-                                              TextStyle(color: Colors.grey,fontSize: 16,),
-                                            ),
-                                            Text(
-                                              list[0].recovered1.toString(),
-                                              style:
-                                              TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.green),
-                                            ),
-                                            Row(
-                                              children: [
-                                                recoveredDiff>0?Icon(Icons.arrow_upward,color: Colors.red,):Icon(Icons.arrow_downward,color: Colors.green,),
-                                                Text(
-                                                  recoveredDiff.abs().toString(),
-                                                  style:
-                                                  recoveredDiff>0?TextStyle(color:Colors.red,fontSize: 18,fontWeight: FontWeight.bold):TextStyle(color:Colors.green,fontSize: 18,fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                      Card(
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: 146,
+                                          width: 142,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Deaths",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
+                                                list[0].deaths1.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.purple),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  deathsDiff > 0
+                                                      ? Icon(
+                                                          Icons.arrow_upward,
+                                                          color: Colors.red,
+                                                        )
+                                                      : Icon(
+                                                          Icons.arrow_downward,
+                                                          color: Colors.green,
+                                                        ),
+                                                  Text(
+                                                    deathsDiff.abs().toString(),
+                                                    style: deathsDiff > 0
+                                                        ? TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold)
+                                                        : TextStyle(
+                                                            color: Colors.green,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 146,
-                                        width: 142,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Deaths",
-                                              style:
-                                              TextStyle(color: Colors.grey,fontSize: 16),
-                                            ),
-                                            Text(
-                                              list[0].deaths1.toString(),
-                                              style:
-                                              TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.purple),
-                                            ),
-                                            Row(
-                                              children: [
-                                                deathsDiff>0?Icon(Icons.arrow_upward,color: Colors.red,):Icon(Icons.arrow_downward,color: Colors.green,),
-                                                Text(
-                                                  deathsDiff.abs().toString(),
-                                                  style:
-                                                  deathsDiff>0?TextStyle(color:Colors.red,fontSize: 18,fontWeight: FontWeight.bold):TextStyle(color:Colors.green,fontSize: 18,fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                FutureBuilder(
-                                  future: countryData(),
-                                  builder: (c, s) {
-                                    if (s.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    } else if (s.hasData &&
-                                        s.connectionState ==
-                                            ConnectionState.done) {
-                                      return SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: DataTable(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              columns: [
-                                                DataColumn(
-                                                    label: Text(
-                                                  "Country",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15),
-                                                )),
-                                                DataColumn(
-                                                    label: Text(
-                                                  "Confirmed",
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 15),
-                                                )),
-                                                DataColumn(
-                                                    label: Text(
-                                                  "Active",
-                                                  style: TextStyle(
-                                                      color: Colors.blue,
-                                                      fontSize: 15),
-                                                )),
-                                                DataColumn(
-                                                    label: Text(
-                                                  "Recovered",
-                                                  style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: 15),
-                                                )),
-                                                DataColumn(
-                                                    label: Text(
-                                                  "Deaths",
-                                                  style: TextStyle(
-                                                      color: Colors.purple,
-                                                      fontSize: 15),
-                                                )),
-                                              ],
-                                              rows: datarows));
-                                    } else {
-                                      return Center(
-                                        child: Text("something went wrong"),
-                                      );
-                                    }
-                                  },
-                                )
-                              ],
+                                      )
+                                    ],
+                                  ),
+                                  FutureBuilder(
+                                    future: countryData(),
+                                    builder: (c, s) {
+                                      if (s.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else if (s.hasData &&
+                                          s.connectionState ==
+                                              ConnectionState.done) {
+                                        return SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: DataTable(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
+                                                columns: [
+                                                  DataColumn(
+                                                      label: Text(
+                                                    "Country",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 15),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    "Confirmed",
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 15),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    "Active",
+                                                    style: TextStyle(
+                                                        color: Colors.blue,
+                                                        fontSize: 15),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    "Recovered",
+                                                    style: TextStyle(
+                                                        color: Colors.green,
+                                                        fontSize: 15),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    "Deaths",
+                                                    style: TextStyle(
+                                                        color: Colors.purple,
+                                                        fontSize: 15),
+                                                  )),
+                                                ],
+                                                rows: datarows));
+                                      } else {
+                                        return Center(
+                                          child: Text("something went wrong"),
+                                        );
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         )
@@ -395,6 +499,25 @@ class _HomeScreenState extends State<HomeScreen> {
             return Text("No data found");
           }
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.library_books_rounded,
+              ),
+              label: "News"),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              label: "Health Tips")
+        ],
       ),
     );
   }
