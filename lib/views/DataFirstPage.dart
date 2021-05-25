@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:corona_tracker/modals/dateWiseData.dart';
 import 'package:corona_tracker/modals/fetchDetailsCountryWise.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,28 +16,37 @@ class _DataFirstPageState extends State<DataFirstPage> {
   @override
 
   var country;
-  FetchDetails details;
+  var code;
+  var countryName;
+  var countryCode;
+  var countryFlag;
+  var countrydialcode;
+  var details;
   var dd;
   var list = [];
 
   Future getData() async {
+    print("get data called");
     SharedPreferences pref = await SharedPreferences.getInstance();
     country = pref.getString("country");
+    code=pref.getString("code");
+    country="india";
+    print(country);
     final url =
-    Uri.parse('https://coronavirus-map.p.rapidapi.com/v1/summary/region');
+    Uri.parse('https://coronavirus-map.p.rapidapi.com/v1/summary/latest');
     var params = {
       "region": country,
     };
-    final newuri = url.replace(queryParameters: params);
     var response = await get(
-      newuri,
+      url,
       headers: {
         "x-rapidapi-key": "cb32e83aadmshf7538630f70d9ccp1422d9jsn152d1c5be9f5",
         "x-rapidapi-host": "coronavirus-map.p.rapidapi.com",
-        "useQueryString": "true",
-      },
+        "useQueryString": "true"
+      }
     );
-    details = FetchDetails.fromJson(jsonDecode(response.body));
+    details = jsonDecode(response.body);
+    print(details['data']['regions'].length);
     var url1 =
     Uri.parse('https://coronavirus-map.p.rapidapi.com/v1/spots/month');
     var newuri1 = url1.replace(queryParameters: params);
@@ -104,6 +114,16 @@ class _DataFirstPageState extends State<DataFirstPage> {
     return datarows;
   }
 
+  Future setData()async{
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    pref.setString('country', countryName);
+    pref.setString('code', countryCode);
+    pref.setString('dialcode', countrydialcode);
+    pref.setString('flag', countryFlag);
+    setState(() {
+    });
+  }
+
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
@@ -136,29 +156,219 @@ class _DataFirstPageState extends State<DataFirstPage> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 50, top: 50),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+//                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 "Covid-19 Tracker",
                                 style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
+                                    fontSize: 18, color: Colors.white),
                               ),
-                              FlatButton(
-                                onPressed: () {},
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      country,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 30),
-                                    ),
-                                    Icon(
-                                      Icons.keyboard_arrow_down_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ],
+                              /*CountryListPick(
+                                useUiOverlay: true,
+                                appBar: AppBar(
+                                  title: Text('Pick your country'),
+                                ),
+                                theme: CountryTheme(
+                                  isShowFlag: true,
+                                  isShowTitle: true,
+                                  isShowCode: true,
+                                  isDownIcon: true,
+                                  showEnglishName: true,
+                                  alphabetTextColor: Colors.white,
+                                ),
+                                initialSelection: code,
+                                // or
+                                // initialSelection: 'IN'
+                                onChanged: (CountryCode code) {
+                                  print("entered into print");
+                                  countryCode=code.code;
+                                  countryName=code.name;
+                                  countryFlag=code.flagUri;
+                                  countrydialcode=code.dialCode;
+                                  setData();
+                                  print(code.name);
+                                  print(code.code);
+                                  print(code.dialCode);
+                                  print(code.flagUri);
+                                },
+                              ),*/
+                              Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
+                                constraints: BoxConstraints(maxWidth: 150),
+                                child: DropdownButton<String>(
+                                  isDense: true,
+                                  value: country,
+                                  isExpanded: true,
+                                  //elevation: 5,
+                                  underline: Container(
+                                    height: 2,
+                                    color: Colors.white,
+                                  ),
+                                  style: TextStyle(color: Colors.black,fontSize: 20),
+
+                                  items: <String>["afghanistan",
+                                    "albania",
+                                    "algeria",
+                                    "andorra",
+                                    "angola",
+                                    "argentina",
+                                    "armenia",
+                                    "australia",
+                                    "austria",
+                                    "azerbaijan",
+                                    "bahrain",
+                                    "bangladesh",
+                                    "belarus",
+                                    "belgium",
+                                    "belize",
+                                    "bolivia",
+                                    "bosnia_and_herzegovina",
+                                    "botswana",
+                                    "brazil",
+                                    "bulgaria",
+                                    "burkina_faso",
+                                    "cabo_verde",
+                                    "cambodia",
+                                    "cameroon",
+                                    "canada",
+                                    "chile",
+                                    "colombia",
+                                    "costa_rica",
+                                    "croatia",
+                                    "cuba",
+                                    "curacao",
+                                    "cyprus",
+                                    "czechia",
+                                    "denmark",
+                                    "dominican_republic",
+                                    "ecuador",
+                                    "egypt",
+                                    "el_salvador",
+                                    "estonia",
+                                    "eswatini",
+                                    "ethiopia",
+                                    "finland",
+                                    "france",
+                                    "french_guiana",
+                                    "french_polynesia",
+                                    "gabon",
+                                    "germany",
+                                    "ghana",
+                                    "greece",
+                                    "guadeloupe",
+                                    "guatemala",
+                                    "guinea",
+                                    "guyana",
+                                    "haiti",
+                                    "honduras",
+                                    "hungary",
+                                    "india",
+                                    "indonesia",
+                                    "iran",
+                                    "iraq",
+                                    "ireland",
+                                    "israel",
+                                    "italy",
+                                    "ivory_coast",
+                                    "jamaica",
+                                    "japan",
+                                    "jordan",
+                                    "kazakhstan",
+                                    "kenya",
+                                    "kuwait",
+                                    "kyrgyzstan",
+                                    "latvia",
+                                    "libya",
+                                    "lithuania",
+                                    "luxembourg",
+                                    "madagascar",
+                                    "malawi",
+                                    "malaysia",
+                                    "maldives",
+                                    "mali",
+                                    "malta",
+                                    "mauritania",
+                                    "mayotte",
+                                    "mexico",
+                                    "moldova",
+                                    "mongolia",
+                                    "montenegro",
+                                    "morocco",
+                                    "mozambique",
+                                    "myanmar",
+                                    "namibia",
+                                    "nepal",
+                                    "netherlands",
+                                    "nigeria",
+                                    "north_macedonia",
+                                    "norway",
+                                    "oman",
+                                    "pakistan",
+                                    "palestine",
+                                    "panama",
+                                    "papua_new_guinea",
+                                    "paraguay",
+                                    "peru",
+                                    "philippines",
+                                    "poland",
+                                    "portugal",
+                                    "qatar",
+                                    "reunion",
+                                    "romania",
+                                    "russia",
+                                    "rwanda",
+                                    "saudi_arabia",
+                                    "senegal",
+                                    "serbia",
+                                    "singapore",
+                                    "slovakia",
+                                    "slovenia",
+                                    "somalia",
+                                    "south_africa",
+                                    "south_korea",
+                                    "spain",
+                                    "sri_lanka",
+                                    "sudan",
+                                    "suriname",
+                                    "sweden",
+                                    "switzerland",
+                                    "syria",
+                                    "tajikistan",
+                                    "thailand",
+                                    "togo",
+                                    "trinidad_and_tobago",
+                                    "tunisia",
+                                    "turkey",
+                                    "uganda",
+                                    "uk",
+                                    "ukraine",
+                                    "united_arab_emirates",
+                                    "uruguay",
+                                    "usa",
+                                    "uzbekistan",
+                                    "venezuela",
+                                    "zambia",
+                                    "zimbabwe",
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,style: TextStyle(color: Colors.black),),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "Country",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      country= value;
+                                    });
+                                  },
                                 ),
                               ),
                             ],
@@ -168,6 +378,7 @@ class _DataFirstPageState extends State<DataFirstPage> {
                           child: RefreshIndicator(
                             onRefresh: () {
                               setState(() {});
+                              return ;
                             },
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
