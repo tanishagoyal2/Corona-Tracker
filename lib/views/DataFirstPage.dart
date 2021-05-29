@@ -29,10 +29,11 @@ class _DataFirstPageState extends State<DataFirstPage> {
     print("get data called");
     SharedPreferences pref = await SharedPreferences.getInstance();
     country = pref.getString("country");
-    code=pref.getString("code");
-    country="india";
     print(country);
-    final url =
+    var params = {
+      "region": country,
+    };
+    /*final url =
     Uri.parse('https://coronavirus-map.p.rapidapi.com/v1/summary/latest');
     var params = {
       "region": country,
@@ -46,7 +47,7 @@ class _DataFirstPageState extends State<DataFirstPage> {
       }
     );
     details = jsonDecode(response.body);
-    print(details['data']['regions'].length);
+    print(details['data']['regions'].length);*/
     var url1 =
     Uri.parse('https://coronavirus-map.p.rapidapi.com/v1/spots/month');
     var newuri1 = url1.replace(queryParameters: params);
@@ -58,8 +59,10 @@ class _DataFirstPageState extends State<DataFirstPage> {
         "useQueryString": "true",
       },
     );
+    print(jsonDecode(response1.body));
     var title = jsonDecode(response1.body)['data'];
     int count = 0;
+    list=[];
     title.forEach((k, v) {
       if (count < 5) {
         list.add(DateWiseData.fromJson(v));
@@ -114,12 +117,9 @@ class _DataFirstPageState extends State<DataFirstPage> {
     return datarows;
   }
 
-  Future setData()async{
+  Future setData(String value)async{
     SharedPreferences pref=await SharedPreferences.getInstance();
-    pref.setString('country', countryName);
-    pref.setString('code', countryCode);
-    pref.setString('dialcode', countrydialcode);
-    pref.setString('flag', countryFlag);
+    pref.setString('country', value);
     setState(() {
     });
   }
@@ -365,6 +365,7 @@ class _DataFirstPageState extends State<DataFirstPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   onChanged: (String value) {
+                                    setData(value);
                                     setState(() {
                                       country= value;
                                     });
