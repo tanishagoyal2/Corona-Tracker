@@ -59,6 +59,7 @@ class _DataFirstPageState extends State<DataFirstPage> {
         "useQueryString": "true",
       },
     );
+    print(response1.statusCode);
     print(jsonDecode(response1.body));
     var title = jsonDecode(response1.body)['data'];
     int count = 0;
@@ -673,8 +674,8 @@ class _DataFirstPageState extends State<DataFirstPage> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          } else {
-            return Text("No data found");
+          } else{
+            return Center(child: Text("Something went wrong"));
           }
         },
       ),
