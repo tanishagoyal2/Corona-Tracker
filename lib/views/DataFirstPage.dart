@@ -164,35 +164,6 @@ class _DataFirstPageState extends State<DataFirstPage> {
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.white),
                               ),
-                              /*CountryListPick(
-                                useUiOverlay: true,
-                                appBar: AppBar(
-                                  title: Text('Pick your country'),
-                                ),
-                                theme: CountryTheme(
-                                  isShowFlag: true,
-                                  isShowTitle: true,
-                                  isShowCode: true,
-                                  isDownIcon: true,
-                                  showEnglishName: true,
-                                  alphabetTextColor: Colors.white,
-                                ),
-                                initialSelection: code,
-                                // or
-                                // initialSelection: 'IN'
-                                onChanged: (CountryCode code) {
-                                  print("entered into print");
-                                  countryCode=code.code;
-                                  countryName=code.name;
-                                  countryFlag=code.flagUri;
-                                  countrydialcode=code.dialCode;
-                                  setData();
-                                  print(code.name);
-                                  print(code.code);
-                                  print(code.dialCode);
-                                  print(code.flagUri);
-                                },
-                              ),*/
                               Container(
                                 color: Colors.white,
                                 padding: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
